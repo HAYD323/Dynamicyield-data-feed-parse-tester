@@ -9,20 +9,21 @@ module.exports = {
 
 function parse(feed1, feed2){
   // Create Feed 1 - Products
-  let mappedFeed1 = feed1.map(function(item){
+  let mappedFeed1 = feed1.map(function(item,index){
     let description = item['Body HTML'].replace(/(<([^>]+)>)/gi, "");
     let descriptionSplit = description.split('.')
     let newItem = {}
     newItem.url = item.URL
     newItem.name = item.Title;
     newItem.group_id = item.ID;
-    newItem.in_stock = item['Variant Inventory Qty'] > 0 ? true : false
-    newItem.sku = item.ID
-    newItem.image_url = item['Image Src']
-    newItem.price = item['Variant Price']
+    newItem.in_stock = item['Variant Inventory Qty'] > 0 ? true : false;
+    newItem.sku = item.ID;
+    newItem.image_url = item['Image Src'];
+    newItem.price = item['Variant Price'];
+    newItem.compareAtPrice = item['Variant Compare At Price'];
     // newItem.review_sku = item['Variant SKU']
-    newItem.description = descriptionSplit[0]
-    newItem.description = newItem.description + '.'
+    newItem.description = descriptionSplit[0];
+    newItem.description = newItem.description + '.';
     return newItem
   })
   

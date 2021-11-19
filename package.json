@@ -7,7 +7,7 @@
     "test": "./src/*.js"
   },
   "scripts": {
-    "test": "clear && node app.js 2>&1 logs/log.txt",
+    "test": "clear && node app.js | tee logs/log.txt",
     "start": "node app.js",
     "watch": "npm-watch"
   },
