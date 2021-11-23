@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "watch": {
-    "test": "./src/*.js"
+    "start": "./src/*.js"
   },
   "scripts": {
     "test": "clear && node app.js | tee logs/log.txt",

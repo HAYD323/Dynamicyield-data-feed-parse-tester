@@ -54,8 +54,8 @@ function parse(feed1, feed2){
   }, {}))
   
   var mappedFeed1ReviewsRefined = mappedFeed1ReviewsReduced.map((elm) => {
-    elm.review_skus = elm.review_skus.filter(item=>item.length > 0).join()
-    elm.sku = elm.sku.filter(item=>item.length > 0).join()
+    elm.review_skus = elm.review_skus.filter((x)=>{return x.length > 0}).join()
+    elm.sku = elm.sku.filter((x)=>{return x.length > 0}).join()
     return elm;
   });
   
@@ -258,7 +258,7 @@ function parse(feed1, feed2){
     });
     
     // Filter and remove any results that have mandatory data missing
-  let filtered = addColumns.filter(function(el) { return el.image_url !== "" && el.sku !== "" && el.price !== ""});
+  let filtered = addColumns.filter(function(el) {return el.image_url !== "" && el.sku !== "" && el.price !== "" && el.group_id !== "" && el.categories && el.categories !== '' });
   
   return filtered
   

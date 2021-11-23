@@ -27,5 +27,11 @@ async function feed2() {
 }
 
 Promise.allSettled([feed1(),feed2()]).then(res=>{
-console.log((dy.parser)(res[0].value,res[1].value))
+    try {
+        let outputJson = dy.parser(res[0].value,res[1].value);
+        //console.log(outputJson);
+        fs.writeFileSync(path.resolve(__dirname,'logs','log.json'),JSON.stringify(outputJson).replaceAll("},","},\n"),'utf8');
+    } catch (err) {
+        console.log('ERROR:',err);
+    }
 })
