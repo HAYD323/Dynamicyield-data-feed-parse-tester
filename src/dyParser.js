@@ -17,6 +17,7 @@ function parse(feed1, feed2){
     newItem.name = item.Title;
     newItem.group_id = item.ID;
     newItem.in_stock = item['Variant Inventory Qty'] > 0 ? true : false;
+    //sku is a unique identifer
     newItem.sku = item.ID;
     newItem.image_url = item['Image Src'];
     newItem.price = item['Variant Price'];
@@ -31,23 +32,22 @@ function parse(feed1, feed2){
   let mappedFeed1Reviews = feed1.map(function(item){
     let newItem = {}
     newItem.review_skus = [item['Variant SKU']]
-    newItem.sku = [item['Variant SKU']];
+    //sku is a unique identifer
+    newItem.sku = item.ID;
     newItem.group_id = item.ID;
     return newItem
   })
   
   // Reduce Feed 1 to group all skus based on product ID
-  var mappedFeed1ReviewsReduced = Object.values(mappedFeed1Reviews.reduce((productIds, { group_id, review_skus, sku }) => {
+  var mappedFeed1ReviewsReduced = Object.values(mappedFeed1Reviews.reduce((productIds, { group_id, review_skus }) => {
     var product = productIds[group_id]
     if (!product) {
       productIds[group_id] = {
         group_id: group_id,
-        review_skus: [...review_skus],
-        sku: [...sku]
+        review_skus: [...review_skus]
       }
     } else {
       product.review_skus =  [...product.review_skus, ...review_skus];
-      product.sku = [...product.sku, ...sku];
     }
     
     return productIds
@@ -55,7 +55,6 @@ function parse(feed1, feed2){
   
   var mappedFeed1ReviewsRefined = mappedFeed1ReviewsReduced.map((elm) => {
     elm.review_skus = elm.review_skus.filter((x)=>{return x.length > 0}).join()
-    elm.sku = elm.sku.filter((x)=>{return x.length > 0}).join()
     return elm;
   });
   
