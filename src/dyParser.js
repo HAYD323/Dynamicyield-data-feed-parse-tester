@@ -1,7 +1,7 @@
 module.exports = {
     parser: parse,
-    feed1FileName: "",
-    feed2FileName: ""
+    feed1FileName: "dy-product-export",
+    feed2FileName: "Smart_Collections_2021-11-22_161454"
 }
 /********************************************************************************************************************/
 /* ADD FILES TO ASSETS FOLDER AND UPDATE NAME ABOVE (without ext as it should be a csv) IF THE ABOVE IS NOT CORRECT */
@@ -22,7 +22,6 @@ function parse(feed1, feed2){
     newItem.image_url = item['Image Src'];
     newItem.price = item['Variant Price'];
     newItem.compareAtPrice = item['Variant Compare At Price'];
-    // newItem.review_sku = item['Variant SKU']
     newItem.description = descriptionSplit[0];
     newItem.description = newItem.description + '.';
     return newItem
@@ -257,7 +256,7 @@ function parse(feed1, feed2){
     });
     
     // Filter and remove any results that have mandatory data missing
-  let filtered = addColumns.filter(function(el) {return el.image_url !== "" && el.sku !== "" && el.price !== "" && el.group_id !== "" && el.categories && el.categories !== '' });
+  let filtered = addColumns.filter(function(el) {return el.image_url !== "" && el.sku !== "" && el.price !== "" && el.group_id !== "" && el.categories && el.categories !== '' && (el.description && el.description.toLowerCase().indexOf('warning') < 0)});
   
   return filtered
   
