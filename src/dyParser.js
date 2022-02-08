@@ -26,6 +26,7 @@ function parse(feed1, feed2){
     descriptionSplit = descriptionSplit[0].split('!-- split --')
     newItem.description = descriptionSplit[0];
     newItem.description = newItem.description + '.';
+    newItem.truncated_description = descriptionSplit[0].length > 1? descriptionSplit[0].trim().length > 50? descriptionSplit[0].slice(0,47).trim() + "..." : descriptionSplit[0] : ".";
     return newItem
   })
   
