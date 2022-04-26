@@ -1,7 +1,7 @@
 module.exports = {
     parser: parse,
     feed1FileName: "dy-product-export",
-    feed2FileName: "Smart_Collections_2022-01-23_161447"
+    feed2FileName: "Smart_Collections"
 }
 /********************************************************************************************************************/
 /* ADD FILES TO ASSETS FOLDER AND UPDATE NAME ABOVE (without ext as it should be a csv) IF THE ABOVE IS NOT CORRECT */
@@ -259,8 +259,15 @@ function parse(feed1, feed2){
     });
     
     // Filter and remove any results that have mandatory data missing
-  let filtered = addColumns.filter(function(el) { return el.image_url !== "" && el.sku !== "" && el.price !== "" && el.price !== "0.00" && el.group_id !== "" && el.categories && el.categories !== '' && (el.description && el.description.toLowerCase().indexOf('warning') < 0) && (el.name.toLowerCase().indexOf('starter') < 0 && el.name.toLowerCase().indexOf('free') < 0 && el.name.toLowerCase().indexOf('sample') < 0 && el.categories.toLowerCase().indexOf('sample') < 0 )});
-  
+  let filtered = addColumns.filter(function(el) { return el.image_url !== "" && el.sku !== "" && el.price !== "" && el.price !== "0.00" && el.group_id !== "" && el.categories && el.categories !== '' && (el.description && el.description.toLowerCase().indexOf('warning') < 0)});
+  let removeItemInclude = ['free','dont','starter','sample','copy'];
+  removeItemInclude.forEach(x=>{
+    filtered = filtered.filter(el=>{
+      return el.name.toLowerCase().indexOf(x) < 0;
+    }).filter(el=>{
+      return el.categories.toLowerCase().indexOf(x) < 0;
+    });
+  });
   return filtered
   
   // Map Feed 3 - TrustPlot Reviews

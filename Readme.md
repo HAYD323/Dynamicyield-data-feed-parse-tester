@@ -1,4 +1,4 @@
-# This is a app to test dynamic yield data feed parsing js locally
+# This is a app to test dynamic yield data feed parsing js locally and sends the output json to logs/log.json
 
 ### To install the npm requried packages:
 ```
