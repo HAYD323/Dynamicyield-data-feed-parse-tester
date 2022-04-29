@@ -14,7 +14,10 @@ function parse(feed1, feed2){
     let descriptionSplit = description.split('.')
     let newItem = {}
     newItem.url = item.URL
-    newItem.name = item.Title;
+    newItem.name = item.Title.trim();
+    if (newItem.name.indexOf(' -') == newItem.name.length - 2) {
+      newItem.name = newItem.name.substring(0, newItem.name.length - 1).trim();
+    }
     newItem.group_id = item.ID;
     newItem.in_stock = item['Variant Inventory Qty'] > 0 ? true : false;
     //sku is a unique identifer
@@ -259,15 +262,8 @@ function parse(feed1, feed2){
     });
     
     // Filter and remove any results that have mandatory data missing
-  let filtered = addColumns.filter(function(el) { return el.image_url !== "" && el.sku !== "" && el.price !== "" && el.price !== "0.00" && el.group_id !== "" && el.categories && el.categories !== '' && (el.description && el.description.toLowerCase().indexOf('warning') < 0)});
-  let removeItemInclude = ['free','dont','starter','sample','copy'];
-  removeItemInclude.forEach(x=>{
-    filtered = filtered.filter(el=>{
-      return el.name.toLowerCase().indexOf(x) < 0;
-    }).filter(el=>{
-      return el.categories.toLowerCase().indexOf(x) < 0;
-    });
-  });
+  let filtered = addColumns.filter(function(el) { return el.image_url !== "" && el.sku !== "" && el.price !== "" && el.price !== "0.00" && el.group_id !== "" && el.categories && el.categories !== '' && (el.description && el.description.toLowerCase().indexOf('warning') < 0) && (el.name.toLowerCase().indexOf('starter') < 0 && el.name.toLowerCase().indexOf('free') < 0 && el.name.toLowerCase().indexOf('sample') < 0 && el.categories.toLowerCase().indexOf('sample') < 0 )});
+
   return filtered
   
   // Map Feed 3 - TrustPlot Reviews
